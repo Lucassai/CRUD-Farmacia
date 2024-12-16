@@ -1,8 +1,11 @@
 package com.generation.crudfarmacia.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+
+import java.util.List;
 
 
 @Entity
@@ -19,6 +22,10 @@ public class Categoria {
     @NotNull(message = "A descrição deve ter entre 5 e 50 caractéres")
     @Size(min = 5, max = 50)
     private String descricao;
+
+    @OneToMany(fetch=FetchType.LAZY, mappedBy = "categoria" , cascade = CascadeType.REMOVE)
+    @JsonIgnoreProperties("categoria")
+    private List<Produtos> produto;
 
 
     public Long getId() {
@@ -44,4 +51,13 @@ public class Categoria {
     public void setDescricao(String descricao) {
         this.descricao = descricao;
     }
+
+    public List<Produtos> getProduto() {
+        return produto;
+    }
+
+    public void setProduto(List<Produtos> produto) {
+        this.produto = produto;
+    }
+
 }
