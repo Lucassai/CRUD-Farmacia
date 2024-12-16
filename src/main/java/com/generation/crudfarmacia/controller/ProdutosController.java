@@ -41,6 +41,15 @@ public class ProdutosController {
         return ResponseEntity.ok(produtos);
     }
 
+    @GetMapping("/disponiveis")
+    public ResponseEntity<List<Produtos>> disponiveis() {
+        List<Produtos> produtos = produtosRepository.findByDisponivelTrue();
+        if (produtos.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(produtos);
+    }
+
     @PutMapping
     public ResponseEntity<Produtos> atualizar(@RequestBody Produtos produto) {
         return ResponseEntity.status(HttpStatus.OK).body(produtosRepository.save(produto));
